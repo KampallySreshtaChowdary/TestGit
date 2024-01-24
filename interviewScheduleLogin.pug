@@ -1,0 +1,38 @@
+include header.pug
+br
+div(class='container')
+    div(class="row")
+        div(class="col-sm-1")
+        div(class="col-sm-11")
+            h3= heading
+br
+div(class='container')
+    div(class="row")
+        div(class="col-sm-1")
+        div(class="col-sm-11")
+            h2 Instructions to applicants: <mark>(Please read the instructions carefully)</mark>
+            ol 
+                li Only one slot is allowed per person.
+                li Make sure you have received an email from gia.math@asu.edu before trying to login.
+
+    form(id="interviewlogin" action="/gia/interviewScheduleLogin" method="POST")
+        div(class="row")
+            div(class="col-sm-3")
+            div(class="col-sm-1")
+                h5 ASU ID:
+            div(class="col-sm-5")
+                input(type="text" name="asuID" style="width:60%;" placeholder="ASU ID")
+
+        div(class="row")
+            div(class="col-sm-4")
+            div(class="col-sm-3")
+                input(type="submit" class="primary" style="width:80%;" value="Login")
+        br
+    div(class="row")
+        div(class="col-sm-1")
+        div(class="col-sm-11")
+            h5 If you encounter any technical issues in submitting a correct application send an email to 
+                a(href="mailto:renate@asu.edu") renate@asu.edu
+                |  with details of the problem being faced.
+
+include footer.pug
