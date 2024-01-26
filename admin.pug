@@ -1,0 +1,117 @@
+include header.pug
+br
+div(class='container')
+    form(action="/gia/admin" method="POST" style="border:none")
+        div(class="row")
+            div(class="col-sm-4")
+            div(class="col-sm-4")
+                h2(style="text-align:center") Welcome to GIA portal
+            div(class="col-sm-2")
+                input(type="text" name="query" style="width:90%;float:right;" value=`${searchQuery ? searchQuery : ''}`)
+            div(class="col-sm-1")
+                button(type="submit" name="status" class="primary" value="search-query" style="width:80%") Search
+            div(class="col-sm-1")
+                a(href="/gia/logout")
+                    button(class="secondary" type="button") Logout
+
+        div(class="row")
+            div(class="col-sm-0")
+            div(class="col-sm-1")
+                button(type="submit" name="status" class="primary" value="Home" style="width:85%") Home
+            div(class="col-sm-1")
+                button(type="submit" name="status" class="primary" value="Would Hire" style="width:91%") Would Hire
+            div(class="col-sm-1")
+                button(type="submit" name="status" class="primary" value="Hired" style="width:85%") Hired
+            div(class="col-sm-1")
+                button(type="submit" name="status" class="primary" value="Under Review" style="width:100%") Under Review
+            div(class="col-sm-1")
+                button(type="submit" name="status" class="primary" value="Would Schedule" style="width:100%") Would Schedule
+            div(class="col-sm-1")
+                button(type="submit" name="status" class="primary" value="Others" style="width:100%") Others
+            div(class="col-sm-1")
+                button(type="submit" name="status" class="primary" value="Rejected" style="width:85%") Rejected
+            div(class="col-sm-1")
+                a(href="/gia/admin/hoursmenu" target="_blank")
+                    button(class="secondary" type="button" style="width:85%") Updated Forms
+            div(class="col-sm-1")
+                a(href="/gia/admin/updatedTranscripts" target="_blank")
+                    button(class="secondary" type="button" style="width:85%") Updated Transcripts
+            div(class="col-sm-1")
+                a(href="/gia/admin/interviewConfirmation" target="_blank")
+                    button(class="secondary" type="button" style="width:85%") Interview Schedule
+            div(class="col-sm-2")
+
+        //- br
+        //- div(class="row")
+        //-     div(class="col-sm-5")
+        //-     div(class="col-sm-2")
+        //-         select(name="semester" style="width:100%;height:80%;")
+        //-             each sem in semesters
+        //-                 option(value=sem selected=(sem == semester)) #{sem}
+        //-     div(class="col-sm-1")
+        //-         button(name="status" value=status type="submit" class="tertiary" style="width:65%;float:left;") Filter
+        //-     div(class="col-sm-4")
+
+
+    div(class="container")
+        table(style="max-height:none")
+            caption #{caption}
+            thead
+                tr
+                    th First Name
+                    th Last Name
+                    th Applied on
+                    th Last Modified
+                    th Status
+                    th Special Courses
+                    th Special Notes
+                    th Details
+                    if caption == 'Would Schedule'
+                        th Send Email
+                        th Invites Sent
+                    th Application Empty
+                    th Interviewed?
+                    th Previous Status
+            tbody
+                each application in applications
+                    tr
+                        td #{application.firstName}
+                        td #{application.lastName}
+                        td #{`${new Date(application.appliedDate).getMonth() + 1}/${new Date(application.appliedDate).getDate()}/${new Date(application.appliedDate).getFullYear()}`}
+                        td #{`${new Date(application.lastModified).getMonth() + 1}/${new Date(application.lastModified).getDate()}/${new Date(application.lastModified).getFullYear()}`}
+                        td #{application.status}
+                        td #{application.specialCourse}
+                        td #{application.specialNotes}
+                        td
+                            a(href=`/gia/admin/applicant/${application.asuID}/${application.semester}`) View details
+                        if caption == 'Would Schedule'
+                            td
+                                button(class="tertiary interview-email" id=`${application.asuEmail}` name="interview") Send Invite
+                            td #{application.inviteCount}
+                        td
+                            button(class="inverse application-empty-email" id=`${application.asuEmail}` name="application-empty" style="font-size:0.8em") Application empty
+                        td
+                            if application.interviewed == 'Interview 1'
+                                p Yes
+                            else if application.interviewed == 'Interview 2'
+                                p Yes
+                            else
+                                p No
+                        td
+                            if 'previous_status' in application 
+                                if application.previous_status == ''
+                                    p No prior applications
+                                else
+                                    p #{application.previous_status}
+                            else
+                                p Not available
+                            
+
+
+//- script(src="/gia/js/jquery.js")
+//- script(src="/gia/js/admin.js")
+
+script(src="/js/jquery.js")
+script(src="/js/admin.js")
+
+include footer.pug
