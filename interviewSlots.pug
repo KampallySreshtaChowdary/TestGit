@@ -1,0 +1,61 @@
+include header.pug
+br
+div(class='container')
+    form(action="/gia/admin" method="POST" style="border:none")
+        div(class="row")
+            div(class="col-sm-4")
+            div(class="col-sm-4")
+                h2(style="text-align:center") #{title}
+            //- div(class="col-sm-2")
+            //-     input(type="text" name="query" style="width:90%;float:right;" value=`${searchQuery ? searchQuery : ''}`)
+            //- div(class="col-sm-1")
+            //-     button(type="submit" name="status" class="primary" value="search-query" style="width:80%") Search
+            div(class="col-sm-1")
+                a(href="/gia/logout")
+                    button(class="secondary" type="button") Logout
+        hr
+        div(class="row")
+            div(class="col-sm-5")
+            div(class="col-sm-1")
+                a(href="/gia/admin/instructorSlots")
+                    button(class="secondary" type="button" style="width:85%") Instructor Slots
+            div(class="col-sm-1")
+                a(href="/gia/admin/instructorMarkBusy")
+                    button(class="secondary" type="button" style="width:85%") Mark Busy
+
+
+    div(class="container")
+        table(style="max-height:none")
+            thead
+                tr
+                    th First Name
+                    th Last Name
+                    th ASU ID
+                    th Interview date
+                    th Interview time
+                    th Details
+                    th Cancel Interview
+            tbody
+                each userinfo in interviewSchedule
+                    tr
+                        td #{userinfo.firstName}
+                        td #{userinfo.lastName}
+                        td #{userinfo.asuID}
+                        td #{userinfo.date}
+                        td #{userinfo.time}
+                        td
+                            if userinfo.asuID.trim() === ''
+                                p Busy
+                            else
+                                a(href=`/gia/admin/applicant/${userinfo.asuID}/${userinfo.semester}`) View details
+                        td 
+                            if userinfo.asuID.trim() === ''
+                                p " "
+                            else 
+                                a(href=`/gia/admin/interviewDelete/${userinfo.asuID}`)
+                                    button(class="secondary" type="button" style="width:85%") Delete
+//- script(src="/gia/js/jquery.js")
+
+script(src="/js/jquery.js")
+
+include footer.pug
