@@ -1,0 +1,91 @@
+include header.pug
+br
+div(class='container')
+
+    div(class="row")
+        div(class="col-sm-4")
+        div(class="col-sm-4" style="text-align: center")
+            h2 
+                b Instructor Mark Busy
+        div(class="col-sm-4")
+
+    - let currentDate = new Date()
+    - let day1 = new Date(currentDate.getTime() + 2 * 24 * 60 * 60 * 1000)
+    - let day2 = new Date(currentDate.getTime() + 3 * 24 * 60 * 60 * 1000)
+    - let day3 = new Date(currentDate.getTime() + 4 * 24 * 60 * 60 * 1000)
+    - let day4 = new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000)
+    - let day5 = new Date(currentDate.getTime() + 6 * 24 * 60 * 60 * 1000)
+    - let day6 = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000)
+    - let day7 = new Date(currentDate.getTime() + 8 * 24 * 60 * 60 * 1000)
+    - let days = [day1, day2, day3, day4, day5, day6, day7]
+    - let monSlots = []
+    - let tueSlots = []
+    - let wedSlots = []
+    - let thuSlots = []
+    - let friSlots = []
+    each doc in instructorSlots 
+        if doc.day === `Monday`
+            - monSlots.push(doc.time)
+        if doc.day === `Tuesday`
+            - tueSlots.push(doc.time)
+        if doc.day === `Wednesday`
+            - wedSlots.push(doc.time)
+        if doc.day === `Thursday`
+            - thuSlots.push(doc.time)
+        if doc.day === `Friday`
+            - friSlots.push(doc.time)
+    
+    form(id="interviewSlot" action="/gia/admin/markBusy" method="POST" enctype="multipart/form-data")
+        div(class="row")
+            div(class="col-sm-1")
+            div(class="col-sm-8")
+                each day in days
+                    - let formattedDate = day.toDateString()
+                    - let week = day.getDay()
+                    if week == 1
+                        p #{formattedDate}
+                        each slot in monSlots
+                            - let slotExists = interviewSchedule.some(interview => interview.date === formattedDate && interview.time === slot)
+                            if (!slotExists)
+                                - let slotFormattedDate = formattedDate
+                                input(type="radio", name="time", value=`${slotFormattedDate} - ${slot}`)
+                                label= slot
+                    if week == 2
+                        p #{formattedDate}
+                        each slot in tueSlots
+                            - let slotExists = interviewSchedule.some(interview => interview.date === formattedDate && interview.time === slot)
+                            if (!slotExists)
+                                - let slotFormattedDate2 = formattedDate
+                                input(type="radio", name="time", value=`${slotFormattedDate2} - ${slot}`)
+                                label= slot
+                    if week == 3
+                        p #{formattedDate}
+                        each slot in wedSlots
+                            - let slotExists = interviewSchedule.some(interview => interview.date === formattedDate && interview.time === slot)
+                            if (!slotExists)
+                                - let slotFormattedDate3 = formattedDate
+                                input(type="radio", name="time", value=`${slotFormattedDate3} - ${slot}`)
+                                label= slot
+                    if week == 4
+                        p #{formattedDate}
+                        each slot in thuSlots
+                            - let slotExists = interviewSchedule.some(interview => interview.date === formattedDate && interview.time === slot)
+                            if (!slotExists)
+                                - let slotFormattedDate4 = formattedDate
+                                input(type="radio", name="time", value=`${slotFormattedDate4} - ${slot}`)
+                                label= slot
+                    if week == 5
+                        p #{formattedDate}
+                        each slot in friSlots
+                            - let slotExists = interviewSchedule.some(interview => interview.date === formattedDate && interview.time === slot)
+                            if (!slotExists)
+                                - let slotFormattedDate5 = formattedDate
+                                input(type="radio", name="time", value=`${slotFormattedDate5} - ${slot}`)
+                                label= slot
+        div(class="row")
+            div(class="col-sm-3")
+            div(class="col-sm-3")
+                input(type="submit" class="primary" style="width:60%;")
+            div(class="col-sm-3")
+                input(type="reset" class="secondary" style="width:60%;")
+    

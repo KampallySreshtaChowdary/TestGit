@@ -1,0 +1,35 @@
+include header.pug
+br
+div(class='container')
+    form(action="/gia/admin" method="POST" style="border:none")
+        div(class="row")
+            div(class="col-sm-4")
+            div(class="col-sm-4")
+                h2(style="text-align:center") #{title}
+            //- div(class="col-sm-2")
+            //-     input(type="text" name="query" style="width:90%;float:right;" value=`${searchQuery ? searchQuery : ''}`)
+            //- div(class="col-sm-1")
+            //-     button(type="submit" name="status" class="primary" value="search-query" style="width:80%") Search
+            div(class="col-sm-1")
+                a(href="/gia/logout")
+                    button(class="secondary" type="button") Logout
+
+    div(class="container")
+        table(style="max-height:none")
+            thead
+                tr
+                    th Instructor
+                    th Day
+                    th Time
+            tbody
+                each userinfo in updatedHours
+                    tr
+                        td #{userinfo.instructor}
+                        td #{userinfo.day}
+                        td #{userinfo.time}
+                        
+//- script(src="/gia/js/jquery.js")
+
+script(src="/js/jquery.js")
+
+include footer.pug
